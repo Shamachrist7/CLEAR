@@ -4,7 +4,7 @@
 
 Official implementation of CLEAR, a learned explicit regularizer for variational reconstruction of highly accelerated 4D Flow cardiovascular MRI.
 
-CLEAR combines the interpretability of explicit compressed-sensing regularization with the flexibility of learned priors. It is evaluated in the **10×–50× acceleration** regime of the CMRx4DFlow2026 challenge and uses fewer than 10k trainable parameters. :contentReference[oaicite:0]{index=0}
+CLEAR combines the interpretability of explicit compressed-sensing regularization with the flexibility of learned priors. It is evaluated in the **10×–50× acceleration** regime of the CMRx4DFlow2026 challenge and uses fewer than 10k trainable parameters.
 
 ### Repository
 
