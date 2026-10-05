@@ -18,6 +18,22 @@ CLEAR combines the interpretability of explicit compressed-sensing regularizatio
 
 The implementation is based on **PyTorch** and **DeepInv**, with `torchcde` used for acceleration-dependent regularizer parameters.
 
+---
+
+## ✉️ Questions?
+
+If you have any questions or feedback, feel free to reach out:
+
+📧 **Email**: [shamachrist7@gmail.com](mailto:german-shama.wache@mathematik.tu-chemnitz.de)
+
+---
+
+## 📄 License
+
+This project is released under the MIT License.
+
+---
+
 ### Paper
 
 Wache, G. S., & Neumayer, S.  
@@ -36,4 +52,4 @@ MICCAI 2026 Workshops and Challenges, CMRxRecon 2026. :contentReference[oaicite:
   booktitle = {Medical Image Computing and Computer Assisted Intervention
                -- MICCAI 2026 Workshops and Challenges},
   year      = {2026}
-}
+} you 
