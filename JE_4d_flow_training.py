@@ -1,3 +1,5 @@
+import os
+import argparse
 import torch
 import wandb
 from tqdm import tqdm
@@ -5,17 +7,21 @@ from deepinv.loss.metric import PSNR
 from deepinv.optim.utils import minres
 from nmAPG import reconstruct_nmAPG
 from deepinv.optim import L2
-#from flowwcrnet import FlowWCRR
-from flowwcrnet_phaseaware import FlowWCRR
+from flowwcrnet import FlowWCRR
 from dataloader_CMRx4DFlow import CMRx4DFlowDataSet
 from physics import Physics_4DFlowMRI
 from torch.utils.data import DataLoader
 
+parser = argparse.ArgumentParser(description="Bilevel (JFB) training of the CLEAR regularizer.")
+parser.add_argument("--data_root", type=str, required=True, help="path to TaskR1R2/TrainSet")
+parser.add_argument("--num_filters", type=int, default=16)
+parser.add_argument("--share_filters", action="store_true")
+parser.add_argument("--out_dir", type=str, default="checkpoints")
+args = parser.parse_args()
+
 torch.manual_seed(0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
-import os
-os.makedirs("weights", exist_ok=True)
-dataset = CMRx4DFlowDataSet(mode="train", D_size=7, T_size=15)
+dataset = CMRx4DFlowDataSet(mode="train", D_size=7, T_size=15, train_roots=[args.data_root])
 dataloader = DataLoader(dataset,
                         batch_size=None,
                         shuffle=True,
@@ -42,7 +48,7 @@ def bilevel_training(
     data_fidelity=data_fidelity,
     lmbd=1.0,
     train_dataloader=dataloader,
-    wandb_setup = {"project": "FlowWCRR_JE", "regularizer_name": "FlowWCRR_phaseaware"},
+    wandb_setup = {"project": "FlowWCRR_JE", "regularizer_name": "FlowWCRR"},
     epochs=4,#3,
     mode="JFB", # "IFT" or "JFB"
     NAG_max_iter=1000,
@@ -227,14 +233,8 @@ def bilevel_training(
 
     
 
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--num_filters", type=int, default=16)
-parser.add_argument("--share_filters", type=bool, default=False)
-args = parser.parse_args()
-base_dir = f"weights_{args.num_filters}_filters_phaseaware" if not args.share_filters else f"weights_{args.num_filters}_shared_filters"
-reg_name = f"FlowWCRR_{args.num_filters}_filters_phaseaware" if not args.share_filters else f"FlowWCRR_{args.num_filters}_shared_filters"
+reg_name = f"FlowWCRR_{args.num_filters}_filters" if not args.share_filters else f"FlowWCRR_{args.num_filters}_shared_filters"
+base_dir = os.path.join(args.out_dir, reg_name)
 os.makedirs(base_dir, exist_ok=True)
 
 ##### Regularizer instance for 4D Flow MRI #####

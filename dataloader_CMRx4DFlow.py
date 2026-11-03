@@ -12,7 +12,13 @@ from Utils.utils_datasl import load_mat, read_params_csv
 from Utils.utils_flow import k2i_numpy
 
 sys.path.append("../../")
-from CMRx4DFlowMaskGeneration import fun_mask_gen_2d
+try:
+    from CMRx4DFlowMaskGeneration import fun_mask_gen_2d
+except ImportError as e:
+    raise ImportError(
+        "Training needs the official k-t Gaussian mask generator: copy the folder "
+        "'CMRx4DFlowMaskGeneration' from https://github.com/CmrxRecon/CMRx4DFlow2026 into this directory."
+    ) from e
 from Utils.misc_utils import mriAdjointOp
 
 

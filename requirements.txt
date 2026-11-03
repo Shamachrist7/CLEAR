@@ -1,0 +1,10 @@
+torch>=2.6
+deepinv==0.4.0
+torchcde==0.2.5
+einops
+h5py
+numpy
+pandas
+scipy
+tqdm
+wandb
